@@ -1,8 +1,5 @@
-"A date string with format `Y-m-d`, e.g. `2011-05-23`."
-scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
-
-"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
-scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+"Can be used as an argument to upload files using https://github.com/jaydenseric/graphql-multipart-request-spec"
+scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
 
 type Query {
     brands: [Brand!]! @all
@@ -21,6 +18,9 @@ type Mutation {
         id: ID!
         brand: InputBrand @spread
     ): Brand @update
+    deleteBrand(
+        id: ID!
+    ): Brand @delete
     createOutlet(
         outlet: InputOutlet @spread
     ): Outlet @field(resolver: "App\\GraphQL\\Mutations\\OutletMutator@create")
@@ -28,6 +28,9 @@ type Mutation {
         id: ID!
         outlet: InputOutlet @spread
     ): Outlet @field(resolver: "App\\GraphQL\\Mutations\\OutletMutator@update")
+    deleteOutlet(
+        id: ID!
+    ): Outlet @delete
     createProduct(
         product: InputProduct @spread
     ): Product @create
@@ -35,6 +38,15 @@ type Mutation {
         id: ID!
         product: InputProduct @spread
     ): Product @update
+    deleteProduct(
+        id: ID!
+    ): Product @delete
+    fileUpload(
+        category: Category!
+        parameter: Parameter!
+        id: ID!
+        file: Upload!
+    ): String
 }
 
 type Brand {
@@ -48,8 +60,6 @@ type Brand {
 
 input InputBrand {
     name: String!
-    logo: String
-    banner: String
 }
 
 type Outlet {
@@ -57,15 +67,14 @@ type Outlet {
     name: String!
     address: String!
     position: Position! @method(name: "getPosition")
-    picture: String
     brand: Brand! @belongsTo
+    picture: String
 }
 
 input InputOutlet {
     brand_id: ID!
     name: String!
     address: String!
-    picture: String
     lat: Float
     lng: Float
 }
@@ -82,10 +91,21 @@ input InputProduct {
     brand_id: ID!
     name: String!
     price: Int!
-    picture: String
 }
 
 type Position {
     lat: Float!
     lng: Float!
+}
+
+enum Category {
+    logo
+    banner
+    picture
+}
+
+enum Parameter {
+    brand
+    outlet
+    product
 }
