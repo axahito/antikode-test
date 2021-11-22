@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('brand_id');
             $table->string('name');
-            $table->string('picture')->default('no_image');
+            $table->string('picture')->nullable();
             $table->integer('price');
             $table->timestamps();
 

@@ -17,10 +17,9 @@ class CreateOutletsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('brand_id');
             $table->string('name');
-            $table->string('picture')->default('no_image.png');
+            $table->string('picture')->nullable();
             $table->text('address');
             $table->point('position');
-            // $table->double('lng');
             $table->timestamps();
 
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
