@@ -16,11 +16,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $out = Outlet::all();
-
-        foreach ($out as $o) {
-            dd($o->getPosition());
-        }
+        //
     }
 
     /**

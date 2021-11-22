@@ -8,16 +8,33 @@ type Query {
     brands: [Brand!]! @all
     brand(id: ID! @eq): Brand @find
     outlets: [Outlet!]! @all
+    outlet(id: ID! @eq): Outlet! @find
     products: [Product!]! @all
+    product(id: ID! @eq): Product! @find
 }
 
 type Mutation {
     createBrand(
         brand: InputBrand @spread
     ): Brand @create
+    updateBrand(
+        id: ID!
+        brand: InputBrand @spread
+    ): Brand @update
     createOutlet(
         outlet: InputOutlet @spread
     ): Outlet @field(resolver: "App\\GraphQL\\Mutations\\OutletMutator@create")
+    updateOutlet(
+        id: ID!
+        outlet: InputOutlet @spread
+    ): Outlet @field(resolver: "App\\GraphQL\\Mutations\\OutletMutator@update")
+    createProduct(
+        product: InputProduct @spread
+    ): Product @create
+    updateProduct(
+        id: ID!
+        product: InputProduct @spread
+    ): Product @update
 }
 
 type Brand {
@@ -41,18 +58,28 @@ type Outlet {
     address: String!
     position: Position! @method(name: "getPosition")
     picture: String
+    brand: Brand! @belongsTo
 }
 
 input InputOutlet {
     brand_id: ID!
     name: String!
     address: String!
+    picture: String
     lat: Float
     lng: Float
 }
 
 type Product {
     id: ID!
+    name: String!
+    price: Int!
+    picture: String
+    brand: Brand! @belongsTo
+}
+
+input InputProduct {
+    brand_id: ID!
     name: String!
     price: Int!
     picture: String
