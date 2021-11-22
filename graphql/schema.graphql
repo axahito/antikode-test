@@ -1,0 +1,64 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type Query {
+    brands: [Brand!]! @all
+    brand(id: ID! @eq): Brand @find
+    outlets: [Outlet!]! @all
+    products: [Product!]! @all
+}
+
+type Mutation {
+    createBrand(
+        brand: InputBrand @spread
+    ): Brand @create
+    createOutlet(
+        outlet: InputOutlet @spread
+    ): Outlet @field(resolver: "App\\GraphQL\\Mutations\\OutletMutator@create")
+}
+
+type Brand {
+    id: ID!
+    name: String!
+    logo: String
+    banner: String
+    outlets: [Outlet!] @hasMany
+    products: [Product!] @hasMany
+}
+
+input InputBrand {
+    name: String!
+    logo: String
+    banner: String
+}
+
+type Outlet {
+    id: ID!
+    name: String!
+    address: String!
+    position: Position! @method(name: "getPosition")
+    picture: String
+}
+
+input InputOutlet {
+    brand_id: ID!
+    name: String!
+    address: String!
+    lat: Float
+    lng: Float
+}
+
+type Product {
+    id: ID!
+    name: String!
+    price: Int!
+    picture: String
+}
+
+type Position {
+    lat: Float!
+    lng: Float!
+}
