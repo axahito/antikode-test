@@ -17,7 +17,6 @@ class OutletMutator
             'brand_id' => $args['brand_id'],
             'name' => $args['name'],
             'address' => $args['address'],
-            'picture' => storage_path($args['picture']),
             'position' => DB::raw("ST_GeomFromText('POINT(".$args['lng']." ".$args['lat'].")')")             
         ]);
         $brand = \App\Models\Brand::find($args['brand_id']);
@@ -38,7 +37,6 @@ class OutletMutator
             'brand_id' => $args['brand_id'],
             'name' => $args['name'],
             'address' => $args['address'],
-            'picture' => storage_path('images/logo/logo_1.png'),
             'position' => DB::raw("ST_GeomFromText('POINT(".$args['lng']." ".$args['lat'].")')")             
         ]);
 

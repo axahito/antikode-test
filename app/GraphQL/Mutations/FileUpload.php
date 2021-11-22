@@ -2,6 +2,10 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Models\Brand;
+use App\Models\Outlet;
+use App\Models\Product;
+
 class FileUpload
 {
     /**
@@ -15,18 +19,30 @@ class FileUpload
         switch ($args['parameter']) {
             case 'brand':
                 if ($args['category'] == 'logo') {
-                    $file->storePubliclyAs('logo_'.$args['id']);
+                    $file->storePubliclyAs('images', 'logo_'.$args['id']);
+                    Brand::find($args['id'])->update([
+                        'logo' => $file
+                    ]);
                 } else {
-                    $file->storePubliclyAs('banner_'.$args['id']);
+                    $file->storePubliclyAs('images', 'banner_'.$args['id']);
+                    Brand::find($args['id'])->update([
+                        'banner' => $file
+                    ]);
                 }
                 break;
 
             case 'outlet':
-                $file->storePubliclyAs('picture_outlet_'.$args['id']);
+                $file->storePubliclyAs('images', 'picture_outlet_'.$args['id']);
+                Outlet::find($args['id'])->update([
+                    'picture' => $file
+                ]);
                 break;
 
             case 'product':
-                $file->storePubliclyAs('picture_product_'.$args['id']);
+                $file->storePubliclyAs('images', 'picture_product_'.$args['id']);
+                Product::find($args['id'])->update([
+                    'picture' => $file
+                ]);
                 break;
         }
     }
