@@ -4,8 +4,10 @@ scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload
 type Query {
     brands: [Brand!]! @all
     brand(id: ID! @eq): Brand @find
+
     outlets: [Outlet!]! @all
     outlet(id: ID! @eq): Outlet! @find
+
     products: [Product!]! @all
     product(id: ID! @eq): Product! @find
 }
@@ -21,6 +23,7 @@ type Mutation {
     deleteBrand(
         id: ID!
     ): Brand @delete
+
     createOutlet(
         outlet: InputOutlet @spread
     ): Outlet @field(resolver: "App\\GraphQL\\Mutations\\OutletMutator@create")
@@ -31,6 +34,7 @@ type Mutation {
     deleteOutlet(
         id: ID!
     ): Outlet @delete
+
     createProduct(
         product: InputProduct @spread
     ): Product @create
@@ -41,12 +45,13 @@ type Mutation {
     deleteProduct(
         id: ID!
     ): Product @delete
-    fileUpload(
-        category: Category!
-        parameter: Parameter!
-        id: ID!
-        file: Upload!
-    ): String
+    
+    # fileUpload(
+    #     category: Category!
+    #     parameter: Parameter!
+    #     id: ID!
+    #     file: Upload!
+    # ): String
 }
 
 type Brand {
