@@ -19,10 +19,8 @@ class BrandsTableSeeder extends Seeder
 
         Brand::create([
             'name' => $faker->word(),
-            'logo' => storage_path('/images/logo/logo_1.png'),
-            'banner' => storage_path('/images/banner/banner_1.png')
-            // 'logo' => $faker->image(storage_path('/images/logo'), 240, 240, null, false),
-            // 'banner' => $faker->image(storage_path('/images/banner'), 640, 480, null, false)
+            'logo' => storage_path('\images\logo\logo_1.png'),
+            'banner' => storage_path('\images\banner\banner_1.png')
         ]);
     }
 }
