@@ -18,11 +18,8 @@ class Outlet extends Model
 
     public function getPosition() {
         $raw = '';
-        // foreach ($this->position as $column)
-        // {
-            $raw .= 'SELECT ST_X(`'.$this->table.'`.`position`) AS lat, ST_Y(`'.$this->table.'`.`position`) AS lng FROM '.$this->table.' WHERE id = '.$this->id;
-        // }
-        // $raw = substr($raw, 0, -2);
+
+        $raw .= 'SELECT ST_X(`'.$this->table.'`.`position`) AS lat, ST_Y(`'.$this->table.'`.`position`) AS lng FROM '.$this->table.' WHERE id = '.$this->id;
 
         $result = DB::select($raw);
         

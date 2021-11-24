@@ -19,13 +19,4 @@ class Brand extends Model
     public function products () {
         return $this->hasMany(Product::class);
     }
-
-    public function getDistanceFromMonas() {
-        $raw = '';
-        $raw .= 'SELECT ST_Distance_Sphere(ST_GeomFromText(`POINT(106.823536 -6.178581)`), foo.outlets.position) as distance FROM foo.outlets  order by distance';
-
-        $result = DB::select($raw);
-        
-        return $result;
-    }
 }
